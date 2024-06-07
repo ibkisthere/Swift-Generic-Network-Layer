@@ -13,6 +13,9 @@
 		4E2667B62C12207400C2F6BE /* UserEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2667B52C12207400C2F6BE /* UserEndpoints.swift */; };
 		4E2667B82C122B1F00C2F6BE /* ApiProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2667B72C122B1F00C2F6BE /* ApiProtocol.swift */; };
 		4E2667BA2C122C4200C2F6BE /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2667B92C122C4200C2F6BE /* ApiClient.swift */; };
+		4E9FCEDF2C12554F009D08D6 /* ApiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FCEDE2C12554F009D08D6 /* ApiConfig.swift */; };
+		4E9FCEE12C126BDF009D08D6 /* MockApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FCEE02C126BDF009D08D6 /* MockApiClient.swift */; };
+		4E9FCEE42C128274009D08D6 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FCEE32C128274009D08D6 /* EventsViewModel.swift */; };
 		4EFBB3E82C1177830042F35B /* EndpointProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFBB3E72C1177830042F35B /* EndpointProvider.swift */; };
 		4EFBB3EA2C1177830042F35B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFBB3E92C1177830042F35B /* ContentView.swift */; };
 		4EFBB3EC2C1177860042F35B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EFBB3EB2C1177860042F35B /* Assets.xcassets */; };
@@ -46,6 +49,9 @@
 		4E2667B52C12207400C2F6BE /* UserEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEndpoints.swift; sourceTree = "<group>"; };
 		4E2667B72C122B1F00C2F6BE /* ApiProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProtocol.swift; sourceTree = "<group>"; };
 		4E2667B92C122C4200C2F6BE /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		4E9FCEDE2C12554F009D08D6 /* ApiConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiConfig.swift; sourceTree = "<group>"; };
+		4E9FCEE02C126BDF009D08D6 /* MockApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockApiClient.swift; sourceTree = "<group>"; };
+		4E9FCEE32C128274009D08D6 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		4EFBB3E42C1177830042F35B /* SwiftGenericNetworklayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGenericNetworklayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EFBB3E72C1177830042F35B /* EndpointProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointProvider.swift; sourceTree = "<group>"; };
 		4EFBB3E92C1177830042F35B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -83,6 +89,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E9FCEE22C128261009D08D6 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				4E9FCEE32C128274009D08D6 /* EventsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		4E9FCEE52C128883009D08D6 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				4E9FCEE62C1288FD009D08D6 /* Endpoints */,
+				4E9FCEE82C12896F009D08D6 /* Base */,
+				4E2667B12C121D8A00C2F6BE /* ApiError.swift */,
+				4E2667B72C122B1F00C2F6BE /* ApiProtocol.swift */,
+				4E2667B92C122C4200C2F6BE /* ApiClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		4E9FCEE62C1288FD009D08D6 /* Endpoints */ = {
+			isa = PBXGroup;
+			children = (
+				4EFBB3E72C1177830042F35B /* EndpointProvider.swift */,
+				4E2667AF2C120CE300C2F6BE /* EndpointExtensions.swift */,
+				4E2667B32C121FDB00C2F6BE /* EventsEndpoints.swift */,
+				4E2667B52C12207400C2F6BE /* UserEndpoints.swift */,
+			);
+			path = Endpoints;
+			sourceTree = "<group>";
+		};
+		4E9FCEE72C12893B009D08D6 /* Mocking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mocking;
+			sourceTree = "<group>";
+		};
+		4E9FCEE82C12896F009D08D6 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				4E9FCEDE2C12554F009D08D6 /* ApiConfig.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		4EFBB3DB2C1177830042F35B = {
 			isa = PBXGroup;
 			children = (
@@ -106,16 +158,13 @@
 		4EFBB3E62C1177830042F35B /* SwiftGenericNetworklayer */ = {
 			isa = PBXGroup;
 			children = (
-				4EFBB3E72C1177830042F35B /* EndpointProvider.swift */,
-				4E2667AF2C120CE300C2F6BE /* EndpointExtensions.swift */,
+				4E9FCEE72C12893B009D08D6 /* Mocking */,
+				4E9FCEE52C128883009D08D6 /* Networking */,
+				4E9FCEE22C128261009D08D6 /* ViewModels */,
+				4E9FCEE02C126BDF009D08D6 /* MockApiClient.swift */,
 				4EFBB3E92C1177830042F35B /* ContentView.swift */,
 				4EFBB3EB2C1177860042F35B /* Assets.xcassets */,
 				4EFBB3ED2C1177860042F35B /* Preview Content */,
-				4E2667B12C121D8A00C2F6BE /* ApiError.swift */,
-				4E2667B32C121FDB00C2F6BE /* EventsEndpoints.swift */,
-				4E2667B52C12207400C2F6BE /* UserEndpoints.swift */,
-				4E2667B72C122B1F00C2F6BE /* ApiProtocol.swift */,
-				4E2667B92C122C4200C2F6BE /* ApiClient.swift */,
 			);
 			path = SwiftGenericNetworklayer;
 			sourceTree = "<group>";
@@ -278,8 +327,11 @@
 				4E2667B42C121FDB00C2F6BE /* EventsEndpoints.swift in Sources */,
 				4E2667B82C122B1F00C2F6BE /* ApiProtocol.swift in Sources */,
 				4E2667B02C120CE300C2F6BE /* EndpointExtensions.swift in Sources */,
+				4E9FCEE42C128274009D08D6 /* EventsViewModel.swift in Sources */,
+				4E9FCEE12C126BDF009D08D6 /* MockApiClient.swift in Sources */,
 				4E2667BA2C122C4200C2F6BE /* ApiClient.swift in Sources */,
 				4E2667B22C121D8A00C2F6BE /* ApiError.swift in Sources */,
+				4E9FCEDF2C12554F009D08D6 /* ApiConfig.swift in Sources */,
 				4EFBB3EA2C1177830042F35B /* ContentView.swift in Sources */,
 				4EFBB3E82C1177830042F35B /* EndpointProvider.swift in Sources */,
 				4E2667B62C12207400C2F6BE /* UserEndpoints.swift in Sources */,

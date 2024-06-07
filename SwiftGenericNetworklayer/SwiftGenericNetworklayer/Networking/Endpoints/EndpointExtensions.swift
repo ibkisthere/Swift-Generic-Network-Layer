@@ -17,7 +17,8 @@ extension EndpointProvider {
     }
     
     var token:String {
-        return ApiConfig.shared.token?.value ?? ""
+//        return ApiConfig.shared.token?.value ?? ""
+          return ApiConfig.shared.token ?? ""
     }
     
     func asURLRequest() throws -> URLRequest {
@@ -34,7 +35,7 @@ extension EndpointProvider {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.addValue(":true", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("true", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("true", forHTTPHeaderField: "X-Use-Cache")
         
         if !token.isEmpty {

@@ -18,7 +18,7 @@ final class ApiClient : ApiProtocol {
         return URLSession(configuration: configuration)
     }
     
-    func asyncRequest<T>(endpoint: EndpointProvider, responseModel: T.Type) async throws -> T {
+    func asyncRequest<T:Decodable>(endpoint: EndpointProvider, responseModel: T.Type) async throws -> T {
         do {
             let (data, response) = try await session.data(for: endpoint.asURLRequest())
             return try self.manageResponse(data:data, response:response)
