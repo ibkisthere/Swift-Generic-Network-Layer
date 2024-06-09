@@ -41,4 +41,8 @@ class MockApiClient:Mockable, ApiProtocol {
             .setFailureType(to: ApiError.self)
             .eraseToAnyPublisher()
     }
+    
+    func asyncUpload<T>(endpoint: EndpointProvider, responseModel: T.Type) async throws -> T where T : Decodable {
+        return loadJSON(filename: endpoint.mockFile!, type: responseModel.self)
+    }
 }

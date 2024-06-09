@@ -15,8 +15,8 @@ struct Password: Encodable {
 enum UserEndpoints: EndpointProvider {
     case createPassword(password: Password)
     case updatePassword(id: String)
-    case createUser(id: String)
-    case updateUser(id:String)
+    case createUser(id: String?, file:Data?)
+    case updateUser(id:String?, file:Data?)
 
     var path: String {
         switch self {
@@ -45,24 +45,41 @@ enum UserEndpoints: EndpointProvider {
         
     }
 
-    var queryItems: [URLQueryItem]? {
-        switch self {
-        default:
+        var queryItems: [URLQueryItem]? {
             return nil
         }
-    }
+    
+       var multipart: MultipartRequest? {
+           switch self {
+           case .updateUser(let userName, let file):
+               let multipart = MultipartRequest()
+               if let preferredName = userName {
+                   if let stringData = preferredName.data(using: .utf8) {
+                       multipart.append(fileData: stringData,withName: "preferredName",fileName:nil, mimeType:.plainText)
+                   }
+               }
+               if let file = file {
+                   multipart.append(fileData: file, withName: "profilePicture", fileName: "profilePicture.jpg", mimeType: .jpeg)
+               }
+          
+               return multipart
+        
+             default : return nil
+           }
+       }
   /// skipping other bits
 
     var body: [String: Any]? {
         switch self {
         case .createPassword(let password):
-            return password.toDictionary
+            return nil
         case .updatePassword(let password):
-            return password.toDictionary
-        case .createUser(let user):
-            return user.toDictionary
-        case .updateUser(let password):
-            return password.toDictionary        }
+            return nil
+        case .createUser(let user, let file):
+            return nil
+        case .updateUser(let user, let file):
+            return nil
+        }
     }
     var mockFile: String? {
         switch self {

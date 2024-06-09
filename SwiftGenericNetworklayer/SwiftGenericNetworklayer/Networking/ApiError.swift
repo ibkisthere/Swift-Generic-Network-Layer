@@ -36,3 +36,43 @@ extension ApiError : Decodable {
         message = try container.decode(String.self, forKey: .message)
     }
 }
+
+enum KnownErrors {
+    enum ErrorCode: String {
+        case expiredToken = "EXPIRED_TOKEN"
+        case invalidCredentials = "INVALID_CREDENTIALS"
+        case networkError = "NETWORK_ERROR"
+        case downloadFileError = "DOWNLOAD_ERROR"
+    }
+}
+
+enum CustomError: String, Error {
+    case expiredToken = "EXPIRED_TOKEN"
+    case invalidCredentials = "INVALID_CREDENTIALS"
+    case networkError = "NETWORK_ERROR"
+    case downloadFileError = "DOWNLOAD_ERROR"
+    case unknownError = "UNKNOWN_ERROR"
+}
+
+struct CustomErrorStrings {
+    static let expiredToken = NSLocalizedString("The token has expired. Please log in again.", comment: "")
+    static let invalidCredentials = NSLocalizedString("The credentials provided are invalid. Please check your username and password.", comment: "")
+    static let networkError = NSLocalizedString("A network error occurred. Please check your connection and try again.", comment: "")
+    static let downloadFileError = NSLocalizedString("An error occurred while downloading the file. Please try again.", comment: "")
+    static let unknownError = NSLocalizedString("An unknown error occurred. Please try again.", comment: "")
+    
+    static func localizedDescription(for error: CustomError) -> String {
+        switch error {
+        case .expiredToken:
+            return CustomErrorStrings.expiredToken
+        case .invalidCredentials:
+            return CustomErrorStrings.invalidCredentials
+        case .networkError:
+            return CustomErrorStrings.networkError
+        case .downloadFileError:
+            return CustomErrorStrings.downloadFileError
+        case .unknownError:
+            return CustomErrorStrings.unknownError
+        }
+    }
+}

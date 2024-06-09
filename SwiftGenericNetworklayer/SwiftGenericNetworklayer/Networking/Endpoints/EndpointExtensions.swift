@@ -21,6 +21,10 @@ extension EndpointProvider {
           return ApiConfig.shared.token ?? ""
     }
     
+    var multipart: MultipartRequest? {
+        return nil
+    }
+    
     func asURLRequest() throws -> URLRequest {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
@@ -48,6 +52,16 @@ extension EndpointProvider {
                 throw ApiError(errorCode:"ERROR-0", message: "Error encoding http body")
             }
         }
+        if let multipart = multipart {
+            urlRequest.setValue(multipart.headerValue, forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue("\(multipart.length)", forHTTPHeaderField: "Content-Length")
+            urlRequest.httpBody = multipart.httpBody
+        }
+        
         return urlRequest
+    }
+    
+    var uploadData : Data? {
+        return nil 
     }
 }

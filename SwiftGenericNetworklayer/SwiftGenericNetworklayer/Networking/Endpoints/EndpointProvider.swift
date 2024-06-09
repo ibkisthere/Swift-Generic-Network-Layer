@@ -25,4 +25,6 @@ protocol EndpointProvider {
     var queryItems:[URLQueryItem]? { get }
     var body:[String:Any]? {get}
     var mockFile :String? { get }
+    var multipart : MultipartRequest? { get }
+    var uploadData: Data? { get }
 }

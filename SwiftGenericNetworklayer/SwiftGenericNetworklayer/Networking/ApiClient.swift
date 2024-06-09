@@ -33,7 +33,8 @@ final class ApiClient : ApiProtocol {
     
     func combineRequest<T: Decodable>(endpoint: EndpointProvider, responseModel: T.Type) -> AnyPublisher<T, ApiError>{
         do {
-            return session.dataTaskPublisher(for: try endpoint.asURLRequest())
+            return session
+                .dataTaskPublisher(for: try endpoint.asURLRequest())
                 .tryMap {
                     output in
                     return try self.manageResponse(data:output.data,response:output.response)
@@ -41,6 +42,13 @@ final class ApiClient : ApiProtocol {
                 .mapError {
                     $0 as? ApiError ?? ApiError(errorCode: "ERROR-0", message: "Unknown API error \($0.localizedDescription)")
                 }.eraseToAnyPublisher()
+        } catch let error as ApiError {
+            return AnyPublisher<T,ApiError>(Fail(error: error))
+        } catch {
+            return AnyPublisher<T,ApiError>(Fail(error: ApiError(
+                errorCode: "ERROR-0",
+                message: "Unknown API error \(error.localizedDescription)"
+            )))
         }
     }
     
@@ -71,9 +79,11 @@ final class ApiClient : ApiProtocol {
                     message: "Unknown backend error"
                 )
             }
+            
             if response.statusCode == 403 && decodedError.errorCode == KnownErrors.ErrorCode.expiredToken.rawValue {
-                NotificationCenter.default.post(name: , object: <#T##Any?#>)
+                NotificationCenter.default.post(name:.terminateSession , object: self)
             }
+            
             throw ApiError(
                     statusCode: response.statusCode,
                     errorCode: decodedError.errorCode,
@@ -81,4 +91,39 @@ final class ApiClient : ApiProtocol {
            )
         }
     }
+    
+    func asyncUpload<T:Decodable>(endpoint: EndpointProvider, responseModel: T.Type) async throws -> T {
+        guard let uploadData = endpoint.uploadData else {
+            throw ApiError(errorCode: "ERROR-0", message: "Invalid upload data")
+        }
+        do {
+            let (data, response) = try await session.upload(for: endpoint.asURLRequest(), from: uploadData)
+            return try self.manageResponse(data:data, response:response)
+        }
+        catch let error as ApiError {
+            throw error
+        }
+        catch {
+            throw ApiError(errorCode: "ERROR-0", message: "Unknown API error \(error.localizedDescription)")
+        }
+    }
+    
+    func asyncDownload(fileURL: URL) async throws -> URL {
+        do {
+            let response = try await session.download(from: fileURL)
+            return response.0
+        } catch {
+            let apiError = ApiError(
+                errorCode: KnownErrors.ErrorCode.downloadFileError.rawValue,
+                message: CustomErrorStrings.downloadFileError
+            )
+            throw apiError
+        }
+    }
+}
+
+
+
+extension Notification.Name {
+    static let terminateSession = Notification.Name("terminateSession")
 }
